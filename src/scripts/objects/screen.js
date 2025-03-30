@@ -24,12 +24,24 @@ const screen = {
         }
     },
     renderEvents(user) {
-        let eventsItens = ''
-        user.events.forEach(event => {
-            if(event.type === 'PushEvent' || event.type === 'CreateEvent'){
-                eventsItens += `<li></li>`
-            }
-        })
+        let eventsItens = null
+
+        if (user.events.length > 0) {
+            eventsItens = ''
+            user.events.forEach(event => {
+                if (event.type === 'PushEvent') {
+                    event.payload.commits.forEach(commit => eventsItens += `<li><a href='${event.repo.url}' target='_blank'>${event.repo.name} - ${commit.message}</a></li><br/>`)
+                }
+                if (event.type === 'CreateEvent') {
+                    eventsItens += `<li><a href='${event.repo.url}' target='_blank'>${event.repo.name} - “Sem mensagem de commit”.</a></li><br/>`
+                }
+            })
+        }
+
+        this.userProfile.innerHTML += `<div class="events section">
+                                                <h2>Eventos</h2>
+                                                <ul>${eventsItens ?? 'Sem eventos recentes'}</ul>
+                                            <?div>`
     },
     renderNotFound() {
         this.userProfile.innerHTML = '<h3>Usuário não encontrado</h3>'
