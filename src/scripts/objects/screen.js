@@ -8,13 +8,23 @@ const screen = {
                                             <p>${user.bio ?? 'Usuário sem bio cadastrada 😢'}</p>
                                             <br/>
                                             <p>👥Seguidores: ${user.followers}<br/>
-                                            Seguindo: ${user.following}</p>
+                                            🏃🏽‍➡️Seguindo: ${user.following}</p>
                                         </div>
                                      </div>`;
     },
     renderRepositories(user) {
         let repositoriesItens = ''
-        user.repositories.forEach(repo => repositoriesItens += `<li><a href="${repo.html_url}" target="_blank">${repo.name}</a></li>`)
+        user.repositories.forEach(repo => {
+            repositoriesItens += `<li>
+                                    <a href="${repo.html_url}" target="_blank">
+                                        ${repo.name}<br/>
+                                        <span>🍴${repo.forks_count}</span> 
+                                        <span>⭐${repo.stargazers_count}</span>
+                                        <span>👀${repo.watchers_count}</span>
+                                        <span>💻${repo.language ?? 'N/A'}</span>
+                                    </a>
+                                </li>`
+                            })
 
         if (user.repositories.length > 0) {
             this.userProfile.innerHTML += `<div class="repositories section">
@@ -30,18 +40,18 @@ const screen = {
             eventsItens = ''
             user.events.forEach(event => {
                 if (event.type === 'PushEvent') {
-                    event.payload.commits.forEach(commit => eventsItens += `<li><a href='${event.repo.url}' target='_blank'>${event.repo.name} - ${commit.message}</a></li><br/>`)
+                    event.payload.commits.forEach(commit => eventsItens += `<li><span>${event.repo.name}</span> - ${commit.message}</li>`)
                 }
                 if (event.type === 'CreateEvent') {
-                    eventsItens += `<li><a href='${event.repo.url}' target='_blank'>${event.repo.name} - “Sem mensagem de commit”.</a></li><br/>`
+                    eventsItens += `<li><span>${event.repo.name}</span> - “Sem mensagem de commit”.</li>`
                 }
             })
         }
 
         this.userProfile.innerHTML += `<div class="events section">
-                                                <h2>Eventos</h2>
-                                                <ul>${eventsItens ?? 'Sem eventos recentes'}</ul>
-                                            <?div>`
+                                            <h2>Eventos</h2>
+                                            <ul>${eventsItens ?? 'Sem eventos recentes'}</ul>
+                                        <?div>`
     },
     renderNotFound() {
         this.userProfile.innerHTML = '<h3>Usuário não encontrado</h3>'

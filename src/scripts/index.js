@@ -13,8 +13,6 @@ async function getUserData(userName) {
     const userResponse = await getUser(userName)
     const repositoriesResponse = await getRepositories(userName)
     const eventsResponse = await getEvents(userName)
-    
-    console.log(eventsResponse)
 
     if(userResponse.message === 'Not Found'){
         screen.renderNotFound()

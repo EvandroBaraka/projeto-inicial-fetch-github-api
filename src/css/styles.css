@@ -141,11 +141,34 @@ main {
   display: block;
   border-radius: 7px;
   transition: 0.3s ease-in-out;
+
+  span {
+    color: white;
+    background-color: mediumslateblue;
+    display: inline-block;
+    padding: 3px;
+    border-radius: 4px;
+    margin: 7px 1px 0px;
+  }
 }
 
 .container .profile-data .repositories ul li a:hover{
   background-color:hotpink;
   color: #fff
+}
+
+.container .profile-data .events{
+  h2 {
+    margin-bottom: 20px;
+  }
+  
+  ul li {
+    padding: 10px;
+
+    span{
+      font-weight: bold;
+    }
+  }
 }
 
 .container .profile-data.hide{
